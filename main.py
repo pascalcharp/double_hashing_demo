@@ -1,3 +1,22 @@
+class linear_open_adressing:
+    def __init__(self, table_size):
+        self.table_size = table_size
+
+    def hash(self, n, i):
+        return (n % self.table_size + i) % self.table_size
+
+# Exercice 2c de la semaine 7
+
+# Fonction de hachage avec résolution de collisions par adressage ouvert quadratique
+# Le hash primaire est h(x) = x mod N où N est la taille de la table
+# Le hash total est H(x, i) = h(x) + i*i où i est le nombre de collisions
+class quadratic_open_adressing:
+    def __init__(self, table_size):
+        self.table_size = table_size
+
+    def hash(self, n, i):
+        return (n % self.table_size + i * i) % self.table_size
+
 # Démo de l'exercice 2d de la semaine 7
 
 # Fonction de hachage avec résolution de collisions par double hachage
@@ -40,6 +59,7 @@ class hash_entry:
             raise "État non reconnu pour hash_entry"
 
 
+
 # Table de hachage dont on peut spécifier la taille et le type de hachage
 class hash_table:
     def __init__(self, table_size, hash_engine):
@@ -67,17 +87,24 @@ class hash_table:
             print(f"Cellule {i} --> {self.table[i]}")
         print("\n\n")
 
-if __name__ == '__main__':
-
-    ht = hash_table(10, double_hashing_demo)
+def run_experiment(hash_engine, title):
+    print(f"Expérience: {title}")
+    ht = hash_table(10, hash_engine)
     ht.display_table()
     keys = [4371, 1323, 6173, 4199, 4344, 9679, 1989]
     for key in keys:
-
         input(f"Veuillez appuyer sur une touche pour insérer la clé suivante: {key}")
         print("")
         ht.insert_key(key)
         ht.display_table(f"après insertion de la clé {key}")
+
+if __name__ == '__main__':
+
+    run_experiment(linear_open_adressing, "Adressage ouvert linéaire")
+    run_experiment(quadratic_open_adressing, "Adressage ouvert quadratique")
+    run_experiment(double_hashing_demo, "Hachage double")
+
+
 
 
 
